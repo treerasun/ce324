@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>BUEng-CE324-2-2559-HW4</title>
+<style>
+	body{
+		background-color:#CCFFFF;
+		margin:30px
+		font-size: 16px;
+	}
+	
+</style>
+<script src="lib/three.min.js"></script>
+<script src="lib/Coordinates.js"></script>
+<script src="lib/OrbitAndPanControls.js"></script>
+<script src="lib/dat.gui.min.js"></script>
+	
+<script>
+			function loadJS(file) {
+				var js = document.createElement("script");
+					js.type = "application/javascript";
+					js.src = file;
+					document.body.appendChild(js);
+			}
+</script>
+</script>
+</head>
+<body>
+<a>Please choose which assignment : </a>
+<select onchange="loadJS(this.value);">
+	<option value="#">Select</option>
+	<option value="polygongeometry1.js">Assignment-1</option>
+	<option value="polygongeometry2.js">Assignment-2</option>
+	<option value="polygongeometry3.js">Assignment-3</option>
+	<option value="buildstair.js">Assignment-4</option>
+	<option value="drinkngbird.js">Assignment-5</option>
+</select>
+<p>
+<div id="container">
+</div>
+</body>
+</html>

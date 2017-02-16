@@ -20,8 +20,8 @@ function PolygonGeometry(sides, location) {
 		// Add 90 degrees so we start at +Y axis, rotate counterclockwise around
 		var angle = (Math.PI/2) + (pt / sides) * 2 * Math.PI;
 
-		var x = Math.cos( angle );
-		var y = Math.sin( angle );
+		var x = Math.cos( angle )+location.x;
+		var y = Math.sin( angle )+location.y;
 
 		// Save the vertex location
 		geo.vertices.push( new THREE.Vector3( x, y, 0.0 ) );
@@ -69,8 +69,8 @@ function init() {
 function showGrids() {
 	// Background grid and axes. Grid step size is 1, axes cross at 0, 0
 	Coordinates.drawGrid({size:100,scale:1,orientation:"z"});
-	Coordinates.drawAxes({axisLength:4,axisOrientation:"x",axisRadius:0.02});
-	Coordinates.drawAxes({axisLength:3,axisOrientation:"y",axisRadius:0.02});
+	Coordinates.drawAxes({axisLength:7,axisOrientation:"x",axisRadius:0.02});
+	Coordinates.drawAxes({axisLength:7,axisOrientation:"y",axisRadius:0.02});
 }
 function addToDOM() {
     var container = document.getElementById('container');

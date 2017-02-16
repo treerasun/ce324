@@ -11,7 +11,6 @@
 
 var camera, scene, renderer;
 var windowScale;
-
 function PolygonGeometry(sides) {
 	var geo = new THREE.Geometry();
 	
@@ -26,8 +25,14 @@ function PolygonGeometry(sides) {
 		
 		// YOUR CODE HERE
         //Save the vertex location - fill in the code
+		geo.vertices.push(new THREE.Vector3(x,y,1.0));
 
 	}
+    for ( var face = 0 ; face < sides-2; face++ )
+    {
+        // this makes a triangle fan, from the first +Y point around
+        geo.faces.push( new THREE.Face3( 0, face+1, face+2 ) );
+    }
     // YOUR CODE HERE
 	// Write the code to generate minimum number of faces for the polygon.
 
@@ -42,6 +47,7 @@ function init() {
 	var canvasRatio = canvasWidth / canvasHeight;
 	// scene
 	scene = new THREE.Scene();
+
 
 	// Camera: Y up, X right, Z up
 	windowScale = 4;
@@ -88,7 +94,7 @@ try {
   init();
   showGrids();
   var geo = PolygonGeometry(5);
-  var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
+  var material = new THREE.MeshBasicMaterial( { color: 0xFF0000, side: THREE.FrontSide } );
   var mesh = new THREE.Mesh( geo, material );
   scene.add( mesh );
   addToDOM();

@@ -5,10 +5,30 @@
     <title>BUEng-CE324-2-2559-HW4</title>
 <style>
 	body{
-		background-color:#CCFFFF;
-		margin:30px
-		font-size: 16px;
+		 background-color: lightblue;
+		margin-top: 100px;
+		margin-bottom: 100px;
+		margin-right: 500px;
+		margin-left: 500px;
+		
 	}
+	.styled-select {
+		background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+		height: 29px;
+		overflow: hidden;
+		width: 140px;
+	}
+
+	.styled-select select {
+		background: transparent;
+		border: none;
+		font-size: 14px;
+		height: 29px;
+		padding: 5px;
+		width: 268px;
+	}
+	.yellow  { background-color: #eec111; }
+	
 	
 </style>
 <script src="lib/three.min.js"></script>
@@ -27,7 +47,8 @@
 </script>
 </head>
 <body>
-<a>Please choose which assignment : </a>
+<h1>Please choose which ssignment : </h1>
+<div class="styled-select yellow rounded">
 <select onchange="loadJS(this.value);">
 	<option value="#">Select</option>
 	<option value="polygongeometry1.js">Assignment-1</option>
@@ -36,6 +57,7 @@
 	<option value="buildstair.js">Assignment-4</option>
 	<option value="drinkngbird.js">Assignment-5</option>
 </select>
+</div>
 <p>
 <div id="container">
 </div>

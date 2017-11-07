@@ -1,0 +1,186 @@
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="MC1.ascx.cs" Inherits="FAPerformanceWeb.Web.MC1" %>
+  
+<%
+   string sql="";
+    if (string.IsNullOrEmpty(Request.QueryString["m3"]))
+    {
+         sql = "select * from (select * from " + FAPerformanceWeb.TableName.MC1 + "  where MCNAME ='MC1' order by  Date1 desc,CREATED_AT desc) where rownum <= 1 order by  rownum  ";
+       
+    }
+    if(!string.IsNullOrEmpty(Request.QueryString["m3"]))
+    {
+         sql = "select * from " + FAPerformanceWeb.TableName.MC1 + "  where TO_CHAR(DATE1, 'DD/MM/YYYY')='"+Request.QueryString["m3"]+"' order by  DATE1 desc";
+         
+    }
+    System.Data.DataTable dt = FAPerformanceWeb.DbData.QuerySelect(sql);
+
+    string sql1 = "select Date1 from "+FAPerformanceWeb.TableName.MC1+"   where MCNAME ='MC1' order by  Date1 desc";
+    System.Data.DataTable t = FAPerformanceWeb.DbData.QuerySelect(sql1);
+
+    foreach (System.Data.DataRow dr1 in dt.Rows)
+    {
+        Response.Write("<h5>" + dr1["name1"].ToString() +"</h5>");
+        Global.data_n = dr1["Date1"].ToString().Substring(0, 10);
+        // Response.Write("<h5>Date "+dr1["Date1"].ToString().Substring(0,10)+ "</h5>");
+        int k = 0;
+        int k1 = 0;
+        for(int i=13;i<=72;i++)
+        {
+            if (i % 2 == 0)
+            {
+                Global.mc1_c[k1] = dr1[i].ToString();
+
+                k1++;
+            }
+            else
+            {
+                Global.mc1_t[k] = dr1[i].ToString();
+                k++;
+            }
+
+        }
+
+    }
+   %>
+                <div class="container">
+                    <div class="row">
+                       <div class="col-sm-3">
+                           <div class="dropdown">
+                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><%=Global.data_n %><span class="caret"></span></button>
+                               <ul class="dropdown-menu">
+                                   <%
+                                       string date2 = "";
+                                         string[] Date2;
+                                       foreach (System.Data.DataRow t1 in t.Rows)
+                                       {
+                                           date2 = t1["date1"].ToString().Substring(0, 10);
+                                             Date2 = date2.Split('/');
+                                         
+                                           date2 = FAPerformanceWeb.ReadCsv.date_Format(Date2[2].Substring(0, 4), Date2[1], Date2[0]);
+                                           Response.Write("<li><a href='/?m2=MC1&m1=home&m3="+date2+"'>"+t1["date1"].ToString().Substring(0, 10)+"</a></li>");
+                                       }
+
+                                   %>
+                               </ul>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+
+                       <div  class="col-md-4">
+                          
+                            <div id="piechart_3d" style="width: 450px; height:250px"></div>
+                        </div>
+
+                        
+                    <div  class="col-md-4">
+                          <table class="table table-striped table-hover table-condensed table-bordered col-md-3" id="Tabla" >
+                             <thead>
+                                 <tr class="info">
+                                     <td style="width: 50%;"><span class="hidden-xs">Model</span></td>
+                                     <td style="width: 50%;"><span class="hidden-xs">CT(sec)</span></td>
+                                 </tr>
+                              </thead>
+                              <tbody id="TablaFamilias">
+                 <%   
+                   
+
+                     foreach (System.Data.DataRow dr in dt.Rows)
+                     {
+
+                         Response.Write("<tr>");
+                         Response.Write("<td></td>");
+                         Response.Write("<td>"+dr["CYCLE_TIME1"]+"</td>");
+                         Response.Write("</tr>");
+                         
+                     }
+                %>
+                         </table>
+                   
+                            <table class="table table-striped table-hover table-condensed table-bordered col-md-3" id="Tabla1" >
+                             <thead>
+                                 <tr class="info">
+                                   
+                                 </tr>
+                              </thead>
+                              <tbody id="TablaFamilias1">
+                 <%   
+                    
+                     foreach (System.Data.DataRow dr3 in dt.Rows)
+                     {
+
+                         Response.Write("<tr>");
+                         Response.Write("<td>Run Times</td>");
+                         Response.Write("<td>"+dr3["RUN_TIME1"]+"</td>");
+                         Response.Write("</tr>");
+                         Response.Write("<td>Origin Times</td>");
+                         Response.Write("<td >"+dr3["ORIGIN_TIME1"]+"</td>");
+                         Response.Write("</tr>");
+                         Response.Write("<td>Error Times</td>");
+                         Response.Write("<td>"+dr3["ERROR_TIME1"]+"</td>");
+                         Response.Write("</tr>");
+                         Response.Write("<td>Stop Times</td>");
+                         Response.Write("<td>"+dr3["STOP_TIME1"]+"</td>");
+                         Response.Write("</tr>");
+                        
+                        Global.RUN_TIME1= FAPerformanceWeb.ReadCsv.time_date(dr3["RUN_TIME1"].ToString());
+                        Global.ORIGIN_TIME1= FAPerformanceWeb.ReadCsv.time_date(dr3["ORIGIN_TIME1"].ToString());
+                        Global.ERROR_TIME1= FAPerformanceWeb.ReadCsv.time_date(dr3["ERROR_TIME1"].ToString());
+                        Global.STOP_TIME1= FAPerformanceWeb.ReadCsv.time_date(dr3["STOP_TIME1"].ToString());
+                    }
+                    %>
+                                        </table>
+                     </div>
+                        <div  class="col-md-4">
+                               <table class="table table-striped table-hover table-condensed table-bordered col-md-3" id="Tabla2" >
+                             <thead>
+                                 <tr class="info">
+                                     <td style="width: 50%; padding: 10px;"><span class="hidden-xs">Status</span></td>
+                                     <td style="width: 50%; padding: 10px;"><span class="hidden-xs">Unknown</span></td>
+                                 </tr>
+                              </thead>
+                              <tbody id="TablaFamilias3">
+                 <%   
+                    
+
+                   foreach (System.Data.DataRow dr4 in dt.Rows)
+                     {
+                         int Diff = Int32.Parse(dr4["ACTUAL1"].ToString()) - Int32.Parse(dr4["PLAN1"].ToString());
+                         Response.Write("<tr>");
+                         Response.Write("<td style='padding: 17px;'> PS Plan</td>");
+                         Response.Write("<td style='padding: 17px;'>"+dr4["PLAN1"]+"</td>");
+                         Response.Write("</tr>");
+                         Response.Write("<td  style='padding: 17px;'>Actual</td>");
+                         Response.Write("<td  style='padding: 17px;'>"+dr4["ACTUAL1"]+"</td>");
+                         Response.Write("</tr>");
+                         Response.Write("<td  style='padding: 17px;'>M/C Uptime</td>");
+                         Response.Write("<td  style='padding: 17px;'>"+dr4["UPTIME1"]+"%</td>");
+                         Response.Write("</tr>");
+                       
+                     }
+                %>
+                         </table>
+  
+                         </div>
+  <script type="text/javascript">
+      function drawVisualization() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+            ['Stop Times', <%=Global.STOP_TIME1%>],
+            ['Origin Times', <%=Global.ORIGIN_TIME1%>],
+            ['Error Times', <%=Global.ERROR_TIME1%>],
+            ['Run Times', <%=Global.RUN_TIME1%>],
+
+          ]);
+          new google.visualization.PieChart(document.getElementById('piechart_3d')).
+        draw(
+          data,
+          {
+            is3D: true,
+          }
+        );
+      }
+
+　
+      google.setOnLoadCallback(drawVisualization);
+    </script>

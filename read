@@ -1,0 +1,302 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Data;
+
+namespace FAPerformanceWeb
+{
+    public class ReadCsv
+    {
+      
+        public static void readandinsert(string fname)
+        {
+
+            String strLine;
+
+            string mcnumber;
+            mcnumber = start_sWith(fname);
+
+            string date1;
+            date1 = sub_string_data(fname);
+
+            var reader = new StreamReader(fname);
+            List<string> name = new List<string>();
+            List<string> num1 = new List<string>();
+            List<string> num2 = new List<string>();
+
+            while (!reader.EndOfStream)
+            {
+                strLine = reader.ReadLine();
+
+                if (strLine.Trim() != "")
+                {
+                    name.Add(strLine.Split(',')[0]);
+                    num1.Add(strLine.Split(',')[1]);
+                    num2.Add(strLine.Split(',')[2]);
+                }
+            }
+            var nameArray = name.ToArray();
+            var num1Array = num1.ToArray();
+            var num2Array = num2.ToArray();
+            reader.Close();
+
+            if (mcnumber == "MC3")
+            {
+                List<DataValue> data = new List<DataValue>();
+                data.Add(new DataValue("MCNAME", mcnumber, true)); //1
+                data.Add(new DataValue("name1", nameArray[0], true)); //2
+                data.Add(new DataValue("date1", "TO_DATE('" + date1 + "', 'YYYY-MM-DD')"));//3
+                data.Add(new DataValue("created_at", "SYSTIMESTAMP"));//4
+                data.Add(new DataValue("updated_at", "SYSTIMESTAMP"));//5
+                data.Add(new DataValue("PLAN1", num1[1], true));//6
+                data.Add(new DataValue("ACTUAL1", num1[2], true));//7
+                data.Add(new DataValue("CYCLE_TIME1", num1[3], true));//8
+                data.Add(new DataValue("RUN_TIME1", num1[4], true));//9
+                data.Add(new DataValue("ERROR_TIME1", num1[5], true));//10
+                data.Add(new DataValue("ORIGIN_TIME1", num1[6], true));//11
+                data.Add(new DataValue("STOP_TIME1", num1[7], true));//12
+                data.Add(new DataValue("UPTIME1", num1[8], true));//13
+                data.Add(new DataValue("GRIPPER_SLIDE_ADV_C1", num1[9], true));//14
+                data.Add(new DataValue("GRIPPER_SLIDE_ADV_T1", num2[9], true));//15
+                data.Add(new DataValue("GRIPPER_SLIDE_RTN_C1", num1[10], true));//16
+                data.Add(new DataValue("GRIPPER_SLIDE_RTN_T1", num2[10], true));//17
+                data.Add(new DataValue("GRIPPER_TAKE_UP_C1", num1[11], true));//18
+                data.Add(new DataValue("GRIPPER_TAKE_UP_T1", num2[11], true));//19
+                data.Add(new DataValue("GRIPPER_TAKE_DN_C1", num1[12], true));//20
+                data.Add(new DataValue("GRIPPER_TAKE_DN_T1", num2[12], true));//21
+                data.Add(new DataValue("GRIPPER_1_CLOSE_C1", num1[13], true));//22
+                data.Add(new DataValue("GRIPPER_1_CLOSE_T1", num2[13], true));//23
+                data.Add(new DataValue("GRIPPER_1_OPEN_C1", num1[14], true));//24
+                data.Add(new DataValue("GRIPPER_1_OPEN_T1", num2[14], true));//25
+                data.Add(new DataValue("GRIPPER_2_CLOSE_C1", num1[15], true));//26
+                data.Add(new DataValue("GRIPPER_2_CLOSE_T1", num2[15], true));//27
+                data.Add(new DataValue("GRIPPER_2_OPEN_C1", num1[16], true));//28
+                data.Add(new DataValue("GRIPPER_2_OPEN_T1", num2[16], true));//29
+                data.Add(new DataValue("LOAD_SLIDE_ADV_C1", num1[17], true));//30
+                data.Add(new DataValue("LOAD_SLIDE_ADV_T1", num2[17], true));//31
+                data.Add(new DataValue("LOAD_SLIDE_RTN_C1", num1[18], true));//32
+                data.Add(new DataValue("LOAD_SLIDE_RTN_T1", num2[18], true));//33
+                data.Add(new DataValue("LOAD_TAKE_UP_C1", num1[19], true));//34
+                data.Add(new DataValue("LOAD_TAKE_UP_T1", num2[19], true));//35
+                data.Add(new DataValue("LOAD_TAKE_DN_C1", num1[20], true));//36
+                data.Add(new DataValue("LOAD_TAKE_DN_T1", num2[20], true));//37
+                data.Add(new DataValue("LOAD_ROTATE_ADV_C1", num1[21], true));//38
+                data.Add(new DataValue("LOAD_ROTATE_ADV_T1", num2[21], true));//39
+                data.Add(new DataValue("LOAD_ROTATE_RTN_C1", num1[22], true));//40
+                data.Add(new DataValue("LOAD_ROTATE_RTN_T1", num2[22], true));//41
+                data.Add(new DataValue("PRESS_DOWN_C1", num1[23], true));//42
+                data.Add(new DataValue("PRESS_DOWN_T1", num2[23], true));//43
+                data.Add(new DataValue("PRESS_UP_C1", num1[24], true));//44
+                data.Add(new DataValue("PRESS_UP_T1", num2[24], true));//45
+                data.Add(new DataValue("PRESS_SUPPORT_UP_C1", num1[25], true));//46
+                data.Add(new DataValue("PRESS_SUPPORT_UP_T1", num2[24], true));//47
+                data.Add(new DataValue("PRESS_SUPPORT_DN_C1", num1[26], true));//48
+                data.Add(new DataValue("PRESS_SUPPORT_DN_T1", num2[26], true));//49
+                data.Add(new DataValue("PRESS_SLIDE_ADV_C1", num1[27], true));//50
+                data.Add(new DataValue("PRESS_SLIDE_ADV_T1", num2[27], true));//51
+                data.Add(new DataValue("PRESS_SLIDE_RTN_C1", num1[28], true));//52
+                data.Add(new DataValue("PRESS_SLIDE_RTN_T1", num2[28], true));//53
+                data.Add(new DataValue("VACUUM_1_FAULT_C1", num1[29], true));//54
+                data.Add(new DataValue("VACUUM_1_FAULT_T1", num2[29], true));//55
+                data.Add(new DataValue("VACUUM_2_FAULT_C1", num1[30], true));//56
+                data.Add(new DataValue("VACUUM_2_FAULT_T1", num2[30], true));//57
+                data.Add(new DataValue("WORK_JAM_ON_ROLL_C1", num1[31], true));//58
+                data.Add(new DataValue("WORK_JAM_ON_ROLL_T1", num2[31], true));//59
+                data.Add(new DataValue("PLEASE_LOAD_WORK_C1", num1[32], true));//60
+                data.Add(new DataValue("PLEASE_LOAD_WORK_T1", num2[32], true));//61
+                data.Add(new DataValue("PLEASE_LOAD_PIN_C1", num1[33], true));//62
+                data.Add(new DataValue("PLEASE_LOAD_PIN_T1", num2[33], true));//63
+                data.Add(new DataValue("LOAD_WORK_FAULT_C1", num1[34], true));//64
+                data.Add(new DataValue("LOAD_WORK_FAULT_T1", num2[34], true));//65
+                data.Add(new DataValue("CHECK_WORK_ON_C1", num1[35], true));//66
+                data.Add(new DataValue("CHECK_WORK_ON_T1", num2[35], true));//67
+                data.Add(new DataValue("PIN_FEEDER_C1", num1[36], true));//68
+                data.Add(new DataValue("PIN_FEEDER_T1", num2[36], true));//69
+                data.Add(new DataValue("CHECK_PIN_C1", num1[37], true));//70
+                data.Add(new DataValue("CHECK_PIN_T1", num2[37], true));//71
+
+　
+                string sql3 = SQL.CreateInsertSQL(TableName.MC, data);
+                if (DbData.QueryScalar(sql3))
+                {
+
+                }
+            }
+            if (mcnumber == "MC2")
+            {
+                List<DataValue> data = new List<DataValue>();
+                data.Add(new DataValue("MCNAME", mcnumber, true)); //1
+                data.Add(new DataValue("name1", nameArray[0], true)); //2
+                data.Add(new DataValue("date1", "TO_DATE('" + date1 + "', 'YYYY-MM-DD')"));//3
+                data.Add(new DataValue("created_at", "SYSTIMESTAMP"));//4
+                data.Add(new DataValue("updated_at", "SYSTIMESTAMP"));//5
+                data.Add(new DataValue("PLAN1", num1[1], true));//6
+                data.Add(new DataValue("ACTUAL1", num1[2], true));//7
+                data.Add(new DataValue("CYCLE_TIME1", num1[3], true));//8
+                data.Add(new DataValue("RUN_TIME1", num1[4], true));//9
+                data.Add(new DataValue("ERROR_TIME1", num1[5], true));//10
+                data.Add(new DataValue("ORIGIN_TIME1", num1[6], true));//11
+                data.Add(new DataValue("STOP_TIME1", num1[7], true));//12
+                data.Add(new DataValue("UPTIME1", num1[8], true));//13
+                data.Add(new DataValue("EMERGENCY1_C1", num1[9], true));//14
+                data.Add(new DataValue("EMERGENCY1_T1", num2[9], true));//15
+                data.Add(new DataValue("IAI_Alarm1_C1", num1[10], true));//16
+                data.Add(new DataValue("IAI_Alarm1_T1", num2[10], true));//17
+                data.Add(new DataValue("RUBBER_NOT_FOUND1_C1", num1[11], true));//18
+                data.Add(new DataValue("RUBBER_NOT_FOUND1_T1", num2[11], true));//19
+                data.Add(new DataValue("Gripper_Rubber_Up1_C1", num1[12], true));//20
+                data.Add(new DataValue("Gripper_Rubber_Up1_T1", num2[12], true));//21
+                data.Add(new DataValue("Gripper_Rubber_Down1_C1", num1[13], true));//22
+                data.Add(new DataValue("Gripper_Rubber_Down1_T1", num2[13], true));//23
+                data.Add(new DataValue("Gripper_Rubber_Unclamp1_C1", num1[14], true));//24
+                data.Add(new DataValue("Gripper_Rubber_Unclamp1_T1", num2[14], true));//25
+                data.Add(new DataValue("Gripper_Rubber_Clamp11_C1", num1[15], true));//26
+                data.Add(new DataValue("Gripper_Rubber_Clamp1_T1", num2[15], true));//27
+                data.Add(new DataValue("Roller_Not_Found1_C1", num1[16], true));//28
+                data.Add(new DataValue("Roller_Not_Found1_T1", num2[16], true));//29
+                data.Add(new DataValue("Shutter_Roller_Timeout1_C1", num1[17], true));//30
+                data.Add(new DataValue("Shutter_Roller_Timeout1_T1", num2[17], true));//31
+                data.Add(new DataValue("Gripper_Rubber_Right1_C1", num1[18], true));//32
+                data.Add(new DataValue("Gripper_Rubber_Right1_T1", num2[18], true));//33
+                data.Add(new DataValue("Gripper_Rubber_Left1_C1", num1[19], true));//34
+                data.Add(new DataValue("Gripper_Rubber_Left1_T1", num2[19], true));//35
+                data.Add(new DataValue("No_Rubber_at_Ass1_C1", num1[20], true));//36
+                data.Add(new DataValue("No_Rubber_at_Ass1_T1", num2[20], true));//37
+                data.Add(new DataValue("Rubber_Feeder1_C1", num1[21], true));//38
+                data.Add(new DataValue("Rubber_Feeder1_T1", num2[21], true));//39
+                data.Add(new DataValue("IAI_Not_Move1_C1", num1[22], true));//40
+                data.Add(new DataValue("IAI_Not_Move1_T1", num2[22], true));//41
+                data.Add(new DataValue("IAI_Move_Timeout1_C1", num1[23], true));//42
+                data.Add(new DataValue("IAI_Move_Timeout1_T1", num2[23], true));//43
+                data.Add(new DataValue("IAI_Home_Timeout1_C1", num1[24], true));//44
+                data.Add(new DataValue("IAI_Home_Timeout1_T1", num2[24], true));//45
+                data.Add(new DataValue("IAI_Servo_ON_Error1_C1", num1[25], true));//46
+                data.Add(new DataValue("IAI_Servo_ON_Error1_T1", num2[24], true));//47
+                data.Add(new DataValue("Roller_Feeder1_C1", num1[26], true));//48
+                data.Add(new DataValue("Roller_Feeder1_T1", num2[26], true));//49
+                data.Add(new DataValue("Gripper_Roller_UP1_C1", num1[27], true));//50
+                data.Add(new DataValue("Gripper_Roller_UP1_T1", num2[27], true));//51
+                data.Add(new DataValue("Gripper_Roller_Down1_C1", num1[28], true));//52
+                data.Add(new DataValue("Gripper_Roller_Down1_T1", num2[28], true));//53
+                data.Add(new DataValue("Gripper_Roller_Clamp1_C1", num1[29], true));//54
+                data.Add(new DataValue("Gripper_Roller_Clamp1_T1", num2[29], true));//55
+                data.Add(new DataValue("Gripper_Roller_Unclamp1_C1", num1[30], true));//56
+                data.Add(new DataValue("Gripper_Roller_Unclamp1_T1", num2[30], true));//57
+                data.Add(new DataValue("Pressing_Retry1_C1", num1[31], true));//58
+                data.Add(new DataValue("Pressing_Retry1_T1", num2[31], true));//59
+                data.Add(new DataValue("Pick_Rubber1_C1", num1[32], true));//60
+                data.Add(new DataValue("Pick_Rubber1_T1", num2[32], true));//61
+                data.Add(new DataValue("RB_ORG1_C1", num1[33], true));//62
+                data.Add(new DataValue("RB_ORG1_T1", num2[33], true));//63
+
+                string sql3 = SQL.CreateInsertSQL(TableName.MC2, data);
+                if (DbData.QueryScalar(sql3))
+                {
+
+                }
+            }
+            if (mcnumber == "MC1")
+            {
+                List<DataValue> data = new List<DataValue>();
+                data.Add(new DataValue("MCNAME", mcnumber, true)); //1
+                data.Add(new DataValue("name1", nameArray[0], true)); //2
+                data.Add(new DataValue("date1", "TO_DATE('" + date1 + "', 'YYYY-MM-DD')"));//3
+                data.Add(new DataValue("created_at", "SYSTIMESTAMP"));//4
+                data.Add(new DataValue("updated_at", "SYSTIMESTAMP"));//5
+                data.Add(new DataValue("PLAN1", num1[1], true));//6
+                data.Add(new DataValue("ACTUAL1", num1[2], true));//7
+                data.Add(new DataValue("CYCLE_TIME1", num1[3], true));//8
+                data.Add(new DataValue("RUN_TIME1", num1[4], true));//9
+                data.Add(new DataValue("ERROR_TIME1", num1[5], true));//10
+                data.Add(new DataValue("ORIGIN_TIME1", num1[6], true));//11
+                data.Add(new DataValue("STOP_TIME1", num1[7], true));//12
+                data.Add(new DataValue("UPTIME1", num1[8], true));//13
+                int k = 9;
+                for (int i = 1; i <= 30; i++)
+                {
+                    data.Add(new DataValue("E" + i + "_C", num1[k], true));
+                    data.Add(new DataValue("E" + i + "_T", num2[k], true));
+                    k++;
+                }
+
+　
+                string sql3 = SQL.CreateInsertSQL(TableName.MC1, data);
+                if (DbData.QueryScalar(sql3))
+                {
+
+                }
+            }
+        }
+
+        public static string start_sWith(string fname)
+        {
+            bool mcnumber;
+            string mc = "";
+            string[] arr1 = new string[] { "MC1", "MC2", "MC3", "" };
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                mcnumber = fname.Contains(arr1[i]);
+                if (mcnumber == true)
+                {
+                    mc = arr1[i];
+                    break;
+                }
+            }
+            return mc;
+        }
+
+        public static string sub_string_data(string fname)
+        {
+            string date1 = "";
+
+            date1 = fname.Substring(fname.Length - 12, 8);
+
+            return date1;
+        }
+
+        public static int time_date(string t)
+        {
+            int sum = 0;
+
+            int num1 = Int32.Parse(t.Substring(0, 1)) * 3600;
+            int num2 = Int32.Parse(t.Substring(2, 2)) * 60;
+            int num3 = Int32.Parse(t.Substring(5, 2));
+
+            sum = num1 + num2 + num3;
+            return sum;
+        }
+        public static string date_Format(string y,string m,string d)
+        {
+            string Date5 = "";
+            string[] s = { "1", "2", "3", "4", "5", "6","7","8","9" };
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (m == s[i])
+                {
+                    m = "0" + m;
+                }
+                else
+                {
+                    m = m;
+                }
+                if (d == s[i])
+                {
+                    d = "0" + d;
+                }
+                else
+                {
+                    d = d;
+                }
+            }
+            Date5 = m +"/"+d +"/"+ y;
+
+            return Date5;
+        }
+
+        }
+
+}
